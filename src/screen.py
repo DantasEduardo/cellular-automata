@@ -1,5 +1,4 @@
 import pygame
-import src.cells as cell
 
 #COLORS#
 BLACK = (0, 0, 0)
