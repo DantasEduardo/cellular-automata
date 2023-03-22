@@ -1,4 +1,5 @@
 import pygame
+from src.rules import check_cells
 
 #COLORS#
 BLACK = (0, 0, 0)
@@ -17,6 +18,8 @@ class Screen:
         self.block_size = 8
         self.cells = [[0 for _ in range(self.width)] for _ in range(height)]
 
+        self.bool = False
+
         pygame.display.set_caption('Life')
 
     def _draw(self):
@@ -28,8 +31,10 @@ class Screen:
                     pygame.draw.rect(self.display, WHITE, pygame.Rect(x * self.block_size, y * self.block_size, 
                                                                     self.block_size,  self.block_size))
         
+        pygame.display.flip()
+        
 
-    def play(self):
+    def play_freemode(self):
         self._draw()
         for event in pygame.event.get():    
             if event.type == pygame.QUIT:
@@ -37,7 +42,7 @@ class Screen:
                 pygame.quit()
                 quit()
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.bool is False:
                 mouse_presses = pygame.mouse.get_pressed()
                 if mouse_presses[0]:
                     position = pygame.mouse.get_pos()
@@ -46,7 +51,15 @@ class Screen:
                 elif mouse_presses[2]:
                     position = pygame.mouse.get_pos()
                     self.cells[position[0]//self.block_size][position[1]//self.block_size] = 0
-                    
-        pygame.display.update()
+
+            elif event.type == pygame.KEYUP and self.bool is False:
+                if event.key == pygame.K_RETURN:
+                    print("STARTED!")    
+                    self.bool = True
+
+        if self.bool:
+            print("Update cells")
+            self.cells = check_cells(self.cells)
+
         self.clock.tick(30)
                    
