@@ -63,6 +63,5 @@ def check_cells(cells):
 
             elif sum == 2:
                 new_state[x][y] = new_state[x][y]    
-
-    print("Finished processing")            
+        
     return new_state            
