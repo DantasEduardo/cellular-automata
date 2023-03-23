@@ -23,6 +23,9 @@ class Screen:
 
         pygame.display.set_caption('Life')
 
+    def set_block_size(self, size = 2):
+        self.block_size = size    
+
     def _draw(self):
         self.display.fill(BLACK)      
 
