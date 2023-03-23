@@ -1,4 +1,5 @@
 import pygame
+import random
 from src.rules import check_cells
 
 #COLORS#
@@ -15,7 +16,7 @@ class Screen:
         self.clock = pygame.time.Clock()
         self.display.fill(BLACK)
 
-        self.block_size = 8
+        self.block_size = 2
         self.cells = [[0 for _ in range(self.width)] for _ in range(height)]
 
         self.bool = False
@@ -23,7 +24,7 @@ class Screen:
         pygame.display.set_caption('Life')
 
     def _draw(self):
-        self.display.fill(BLACK)
+        self.display.fill(BLACK)      
 
         for x in range(len(self.cells)):
             for y in range(len(self.cells[x])):
@@ -32,7 +33,34 @@ class Screen:
                                                                     self.block_size,  self.block_size))
         
         pygame.display.flip()
+
+    def _generate_cells(self):
+        for x in range(len(self.cells)):
+            for y in range(len(self.cells[x])):
+                self.cells[x][y] = int(random.randint(0,1))
         
+    def play_observation_mode(self):   
+        self._generate_cells()
+        print("Genrated cells")
+
+        while True:
+            self._draw()
+            for event in pygame.event.get():    
+                if event.type == pygame.QUIT:
+                    print("QUIT")
+                    pygame.quit()
+                    quit()
+
+                elif event.type == pygame.KEYUP and self.bool is False:
+                    if event.key == pygame.K_RETURN:
+                        print("STARTED!")    
+                        self.bool = True
+
+            if self.bool:
+                self.cells = check_cells(self.cells)
+
+            self.clock.tick(30)
+
 
     def play_freemode(self):
         self._draw()
@@ -58,7 +86,6 @@ class Screen:
                     self.bool = True
 
         if self.bool:
-            print("Update cells")
             self.cells = check_cells(self.cells)
 
         self.clock.tick(30)
