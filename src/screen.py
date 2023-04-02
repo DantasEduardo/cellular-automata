@@ -17,7 +17,7 @@ class Screen:
         self.display.fill(BLACK)
 
         self.block_size = 2
-        self.cells = [[0 for _ in range(self.width)] for _ in range(height)]
+        self.cells = [[0 for _ in range(self.width)] for _ in range(self.height)]
 
         self.bool = False
 
